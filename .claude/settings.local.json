@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build *)",
+      "Bash(docker compose *)",
+      "Bash(dotnet tool *)",
+      "Bash(dotnet ef *)"
+    ]
+  }
+}
