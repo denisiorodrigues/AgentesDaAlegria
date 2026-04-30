@@ -61,6 +61,38 @@ dotnet test
 
 ---
 
+## Fluxo de branches
+
+```
+main                        ← código estável, pronto para produção
+└── develop/backend         ← desenvolvimento do backend
+    ├── feature/auth
+    ├── feature/eventos
+    └── feature/inscricoes
+```
+
+| Branch | Propósito |
+|---|---|
+| `main` | Código estável, reflete o que está em produção |
+| `develop/backend` | Integração contínua das features do backend |
+| `feature/*` | Uma branch por funcionalidade, criada a partir de `develop/backend` |
+
+### Comandos do dia a dia
+
+```bash
+# Ver em qual branch está
+git branch
+
+# Criar uma feature branch
+git checkout -b feature/auth
+
+# Quando a feature estiver pronta, voltar e fazer merge
+git checkout develop/backend
+git merge feature/auth
+```
+
+---
+
 ## Estrutura do projeto
 
 ```
