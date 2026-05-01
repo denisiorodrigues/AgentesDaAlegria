@@ -13,7 +13,7 @@ public class Evento
     public int TotalVagas { get; set; }
     public int HorasLimiteCancelamento { get; set; } = 24;
 
-    public int CoordenadorId { get; set; }
+    public Guid CoordenadorId { get; set; }
     public Voluntario Coordenador { get; set; } = null!;
 
     public ICollection<Inscricao> Inscricoes { get; set; } = [];

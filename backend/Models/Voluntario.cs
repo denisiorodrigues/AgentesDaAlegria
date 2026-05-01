@@ -1,16 +1,15 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace AgentesDaAlegria.API.Models;
 
-public class Voluntario
+public class Voluntario : IdentityUser<Guid>
 {
-    public int Id { get; set; }
     public string NomeCompleto { get; set; } = string.Empty;
     public string Apelido { get; set; } = string.Empty;
     public DateOnly DataNascimento { get; set; }
-    public string Email { get; set; } = string.Empty;
     public string Telefone { get; set; } = string.Empty;
     public string? Instagram { get; set; }
     public string? Endereco { get; set; }
-    public string PasswordHash { get; set; } = string.Empty;
     public PerfilVoluntario Perfil { get; set; } = PerfilVoluntario.Voluntario;
     public DateTime? DataUltimoEvento { get; set; }
 
