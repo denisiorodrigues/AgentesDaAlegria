@@ -44,25 +44,33 @@ public class TokenService(IConfiguration configuration) : ITokenService
 
     public ClaimsPrincipal? ObterPrincipalDoTokenExpirado(string token)
     {
-        var parametros = new TokenValidationParameters
+        try
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = false, // ignora expiração propositalmente
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = configuration["Jwt:Emissor"],
-            ValidAudience = configuration["Jwt:Audiencia"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(configuration["Jwt:Chave"]!))
-        };
+            var parametros = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = false, // ignora expiração propositalmente
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration["Jwt:Emissor"],
+                ValidAudience = configuration["Jwt:Audiencia"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(configuration["Jwt:Chave"]!))
+            };
 
-        var handler = new JwtSecurityTokenHandler();
-        var principal = handler.ValidateToken(token, parametros, out var tokenValidado);
+            var handler = new JwtSecurityTokenHandler();
+            handler.InboundClaimTypeMap.Clear();
+            var principal = handler.ValidateToken(token, parametros, out var tokenValidado);
 
-        if (tokenValidado is not JwtSecurityToken jwt ||
-            !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
+            if (tokenValidado is not JwtSecurityToken jwt ||
+                !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            return principal;
+        }
+        catch
+        {
             return null;
-
-        return principal;
+        }
     }
 }

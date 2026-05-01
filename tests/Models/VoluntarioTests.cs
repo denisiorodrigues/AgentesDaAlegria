@@ -56,8 +56,8 @@ public class VoluntarioTests
     [Fact]
     public void PodeGerenciarEvento_RetornaTrue_ParaAdministrador()
     {
-        var admin = new Voluntario { Id = 1, Perfil = PerfilVoluntario.Admin };
-        var evento = new EventoBuilder().Build(); // CoordenadorId = 99
+        var admin = new Voluntario { Id = Guid.NewGuid(), Perfil = PerfilVoluntario.Admin };
+        var evento = new EventoBuilder().Build(); // CoordenadorId = DefaultCoordenadorId
 
         Assert.True(admin.PodeGerenciarEvento(evento));
     }
@@ -65,8 +65,12 @@ public class VoluntarioTests
     [Fact]
     public void PodeGerenciarEvento_RetornaTrue_ParaCoordenadorDoEvento()
     {
-        var coordenador = new Voluntario { Id = 99, Perfil = PerfilVoluntario.Voluntario };
-        var evento = new EventoBuilder().Build(); // CoordenadorId = 99
+        var coordenador = new Voluntario
+        {
+            Id = EventoBuilder.DefaultCoordenadorId,
+            Perfil = PerfilVoluntario.Voluntario
+        };
+        var evento = new EventoBuilder().Build(); // CoordenadorId = DefaultCoordenadorId
 
         Assert.True(coordenador.PodeGerenciarEvento(evento));
     }
@@ -74,8 +78,8 @@ public class VoluntarioTests
     [Fact]
     public void PodeGerenciarEvento_RetornaFalse_ParaVoluntarioComum()
     {
-        var voluntario = new Voluntario { Id = 42, Perfil = PerfilVoluntario.Voluntario };
-        var evento = new EventoBuilder().Build(); // CoordenadorId = 99
+        var voluntario = new Voluntario { Id = Guid.NewGuid(), Perfil = PerfilVoluntario.Voluntario };
+        var evento = new EventoBuilder().Build(); // CoordenadorId = DefaultCoordenadorId
 
         Assert.False(voluntario.PodeGerenciarEvento(evento));
     }

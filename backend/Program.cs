@@ -27,7 +27,6 @@ builder.Services
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-var jwtChave = builder.Configuration["Jwt:Chave"]!;
 builder.Services
     .AddAuthentication(options =>
     {
@@ -36,6 +35,13 @@ builder.Services
     })
     .AddJwtBearer(options =>
     {
+        // Lido aqui (lazy) para que WebApplicationFactory consiga injetar configuração de teste
+        var chave = builder.Configuration["Jwt:Chave"]
+            ?? throw new InvalidOperationException("Jwt:Chave não configurada.");
+
+        // Preserva os nomes originais dos claims (sem remap "sub" → NameIdentifier)
+        options.MapInboundClaims = false;
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -44,7 +50,7 @@ builder.Services
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Emissor"],
             ValidAudience = builder.Configuration["Jwt:Audiencia"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtChave)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(chave)),
             ClockSkew = TimeSpan.Zero
         };
     });
@@ -62,3 +68,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

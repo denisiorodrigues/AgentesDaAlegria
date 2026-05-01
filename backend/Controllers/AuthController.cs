@@ -118,8 +118,10 @@ public class AuthController(
             return BadRequest(resultado.Errors.Select(e => e.Description));
 
         // Revoga todos os refresh tokens ao redefinir senha
-        var tokens = db.TokensAtualizacao.Where(t => t.VoluntarioId == voluntario.Id && !t.Revogado);
-        await tokens.ExecuteUpdateAsync(s => s.SetProperty(t => t.Revogado, true));
+        var tokensAtivos = await db.TokensAtualizacao
+            .Where(t => t.VoluntarioId == voluntario.Id && !t.Revogado)
+            .ToListAsync();
+        foreach (var t in tokensAtivos) t.Revogado = true;
 
         return Ok("Senha redefinida com sucesso.");
     }
