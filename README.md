@@ -101,6 +101,48 @@ dotnet test
 
 ---
 
+## Testar a API com Bruno
+
+O projeto usa [Bruno](https://www.usebruno.com) como cliente HTTP. A coleção fica versionada em `bruno/` e é gerada automaticamente a partir do spec OpenAPI.
+
+### Pré-requisito
+
+- [Bruno](https://www.usebruno.com/downloads) instalado
+- [Node.js](https://nodejs.org) instalado (para o script de geração)
+
+### Abrir a coleção
+
+1. Abra o Bruno
+2. Clique em **Open Collection** e selecione a pasta `bruno/`
+3. Selecione o ambiente **local**
+
+### Atualizar a coleção (após adicionar uma nova controller)
+
+```powershell
+# Windows
+.\scripts\update-bruno.ps1
+
+# Linux / Mac
+./scripts/update-bruno.sh
+```
+
+O script faz dois passos:
+1. `dotnet build` → gera `openapi/AgentesDaAlegria.API.json` em build-time
+2. `node scripts/openapi-to-bruno.js` → converte o spec em arquivos `.bru`
+
+Os endpoints são agrupados por prefixo de rota (`/api/auth/` → pasta `auth/`, `/api/eventos/` → pasta `eventos/`, etc.). Endpoints com `[Authorize]` já saem configurados com `auth: bearer`.
+
+### Variáveis de ambiente (Bruno)
+
+| Variável | Valor padrão | Descrição |
+|---|---|---|
+| `baseUrl` | `http://localhost:5000` | URL base da API |
+| `accessToken` | _(vazio)_ | Token JWT — preencha após fazer login |
+
+> Para fluxos autenticados: faça login em **AU-02 Login**, copie o `accessToken` da resposta e cole na variável `accessToken` do ambiente local.
+
+---
+
 ## Fluxo de branches
 
 ```
@@ -138,7 +180,10 @@ git merge feature/auth
 ```
 AgentesDaAlegria/
 ├── backend/       # ASP.NET Core Web API (.NET 10)
-├── tests/         # Testes de unidade (xUnit)
+├── tests/         # Testes de unidade e integração (xUnit)
+├── bruno/         # Coleção Bruno (gerada — não edite manualmente)
+├── openapi/       # Spec OpenAPI gerado em build-time
+├── scripts/       # Scripts auxiliares (update-bruno, etc.)
 ├── docker-compose.yml
 ├── architecture.md
 ├── project-definition.md
