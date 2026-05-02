@@ -2,9 +2,11 @@ using AgentesDaAlegria.API.Data;
 using AgentesDaAlegria.API.Models;
 using AgentesDaAlegria.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,10 +59,59 @@ builder.Services
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, _, _) =>
+    {
+        document.Info = new OpenApiInfo
+        {
+            Title = "Agentes da Alegria API",
+            Version = "v1",
+            Description = "API de gestão de voluntários e eventos para ONGs."
+        };
+
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+        document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Description = "Informe o access token JWT obtido no endpoint /api/auth/login."
+        };
+
+        return Task.CompletedTask;
+    });
+
+    options.AddOperationTransformer((operation, context, _) =>
+    {
+        var requiresAuth = context.Description.ActionDescriptor.EndpointMetadata
+            .OfType<AuthorizeAttribute>()
+            .Any();
+
+        if (requiresAuth)
+        {
+            // v2.0: referência ao security scheme via OpenApiSecuritySchemeReference
+            operation.Security =
+            [
+                new OpenApiSecurityRequirement
+                {
+                    [new OpenApiSecuritySchemeReference("Bearer", null)] = []
+                }
+            ];
+        }
+
+        return Task.CompletedTask;
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
+{
     app.UseDeveloperExceptionPage();
+    app.MapOpenApi();
+}
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

@@ -17,7 +17,7 @@ public class AuthController(
     AppDbContext db,
     IConfiguration configuration) : ControllerBase
 {
-    // AU-01: Cadastro de voluntário
+    /// <summary>AU-01 Cadastro de voluntário</summary>
     [HttpPost("registrar")]
     public async Task<IActionResult> Registrar([FromBody] RegistroDto dto)
     {
@@ -41,7 +41,7 @@ public class AuthController(
         return Created($"/api/voluntarios/{voluntario.Id}", new { voluntario.Id, voluntario.Email });
     }
 
-    // AU-02: Login
+    /// <summary>AU-02 Login</summary>
     [HttpPost("login")]
     public async Task<ActionResult<TokenResponseDto>> Login([FromBody] LoginDto dto)
     {
@@ -52,7 +52,7 @@ public class AuthController(
         return Ok(await EmitirTokens(voluntario));
     }
 
-    // AU-02: Refresh token
+    /// <summary>AU-02 Renovar access token (refresh)</summary>
     [HttpPost("refresh")]
     public async Task<ActionResult<TokenResponseDto>> Refresh([FromBody] RefreshTokenDto dto)
     {
@@ -82,7 +82,7 @@ public class AuthController(
         return Ok(await EmitirTokens(voluntario));
     }
 
-    // AU-03: Esqueci a senha
+    /// <summary>AU-03 Solicitar redefinição de senha</summary>
     [HttpPost("esqueci-senha")]
     public async Task<IActionResult> EsqueciSenha([FromBody] EsqueciSenhaDto dto)
     {
@@ -95,7 +95,6 @@ public class AuthController(
         var token = await userManager.GeneratePasswordResetTokenAsync(voluntario);
 
         // TODO: enviar e-mail com o token (integração com serviço de e-mail - Épico Notificações)
-        // Por ora, retorna o token apenas em ambiente de desenvolvimento
         var resposta = new { Mensagem = "Se o e-mail estiver cadastrado, você receberá as instruções em breve." };
 
         if (HttpContext.RequestServices
@@ -105,7 +104,7 @@ public class AuthController(
         return Ok(resposta);
     }
 
-    // AU-03: Redefinir senha
+    /// <summary>AU-03 Redefinir senha com token</summary>
     [HttpPost("redefinir-senha")]
     public async Task<IActionResult> RedefinirSenha([FromBody] RedefinirSenhaDto dto)
     {
@@ -126,7 +125,7 @@ public class AuthController(
         return Ok("Senha redefinida com sucesso.");
     }
 
-    // AU-04: Admin cria voluntário
+    /// <summary>AU-04 Admin cria voluntário</summary>
     [Authorize]
     [HttpPost("criar-voluntario")]
     public async Task<IActionResult> CriarVoluntario([FromBody] RegistroDto dto)
