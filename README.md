@@ -46,8 +46,20 @@ cd backend
 # String de conexão com o banco
 dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=agentesdaalegria;Username=postgres;Password=postgres"
 
-# Chave secreta para assinatura dos tokens JWT (mínimo 32 caracteres)
-dotnet user-secrets set "Jwt:Chave" "sua-chave-secreta-com-no-minimo-32-chars"
+# Chave secreta para assinatura dos tokens JWT — substitua pelo valor gerado abaixo
+dotnet user-secrets set "Jwt:Chave" "<chave-gerada>"
+```
+
+Para gerar uma chave segura, use um dos comandos antes de rodar o `user-secrets set`:
+
+```bash
+# Linux / Mac
+openssl rand -base64 48
+```
+
+```powershell
+# Windows (PowerShell)
+[Convert]::ToBase64String((1..48 | ForEach-Object { Get-Random -Max 256 }))
 ```
 
 > Os segredos ficam armazenados localmente em `~/.microsoft/usersecrets/` e **nunca** são commitados no repositório.
