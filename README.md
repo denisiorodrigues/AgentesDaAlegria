@@ -44,8 +44,7 @@ O projeto usa [.NET User Secrets](https://learn.microsoft.com/aspnet/core/securi
 cd backend
 
 # String de conexão com o banco
-dotnet user-secrets set "ConnectionStrings:Default" \
-  "Host=localhost;Port=5432;Database=agentesdaalegria;Username=postgres;Password=postgres"
+dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=agentesdaalegria;Username=postgres;Password=postgres"
 
 # Chave secreta para assinatura dos tokens JWT (mínimo 32 caracteres)
 dotnet user-secrets set "Jwt:Chave" "sua-chave-secreta-com-no-minimo-32-chars"
