@@ -34,7 +34,14 @@ Sistema web de gestão de voluntários e eventos para ONGs — substitui planilh
 docker compose up -d
 ```
 
-Isso inicia um container PostgreSQL 16 na porta `5432`.
+Isso inicia dois containers:
+
+| Container | Porta | Descrição |
+|---|---|---|
+| PostgreSQL 16 | `5432` | Banco de dados |
+| Mailpit | `1025` (SMTP) / `8025` (UI) | Interceptador de e-mails para desenvolvimento |
+
+Acesse a caixa de entrada de desenvolvimento em `http://localhost:8025`.
 
 ### 2. Configurar os segredos de desenvolvimento
 
