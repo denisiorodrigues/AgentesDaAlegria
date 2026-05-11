@@ -100,6 +100,18 @@ dotnet test
 
 ---
 
+## Documentação interativa (Scalar)
+
+Com o backend rodando em Development, acesse:
+
+```
+http://localhost:5206/scalar/v1
+```
+
+O Scalar é gerado automaticamente a partir do spec OpenAPI e permite explorar e executar todos os endpoints. Para testar rotas protegidas, faça login em **AU-02 Login**, copie o `accessToken` da resposta e use o botão **Authenticate** no topo da página.
+
+---
+
 ## Testar a API com Bruno
 
 O projeto usa [Bruno](https://www.usebruno.com) como cliente HTTP. A coleção fica versionada em `bruno/` e é gerada automaticamente a partir do spec OpenAPI.

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using Scalar.AspNetCore;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,7 @@ builder.Services
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequiredLength = 6;
         options.User.RequireUniqueEmail = true;
-    })
+    })  
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
@@ -111,6 +112,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.Title = "Agentes da Alegria API";
+        options.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.HttpClient);
+    });
 }
 
 app.UseHttpsRedirection();
