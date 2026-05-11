@@ -56,13 +56,31 @@ Quando todas as issues do milestone estiverem em **Done**, o épico está conclu
 | Title | Nome da issue |
 | Assignees | Responsável pela tarefa |
 | Status | Todo / In Progress / Done |
-| Labels | Categoria/épico |
+| Labels | Categoria/épico e camada (`backend` / `frontend`) |
 | Linked pull requests | PR vinculado à issue |
 | Milestone | Épico ao qual pertence |
 | Repository | Repositório de origem |
 | Reviewers | Quem revisou o PR |
 | Parent issue | Issue pai (para sub-tasks) |
 | Sub-issues progress | Progresso das sub-tasks |
+
+---
+
+## Labels por camada
+
+Cada issue recebe **duas categorias de label**:
+
+1. **Épico** — identifica o grupo funcional (ex.: `autenticacao`, `eventos`)
+2. **Camada** — indica onde a implementação acontece:
+
+| Label | Significado |
+|---|---|
+| `backend` | Implementação na API / servidor |
+| `frontend` | Implementação na interface / cliente |
+
+> Uma mesma funcionalidade do PRD gera **uma issue** (não duas). A label de camada indica quem é responsável. Se a funcionalidade exige trabalho nas duas camadas, ambas as labels podem ser aplicadas na mesma issue ou a issue pode ser dividida em sub-tasks.
+
+**Por que não criar milestones separados por camada?** Evita duplicar épicos e mantém a rastreabilidade por fase de entrega — todos os itens de um épico ficam no mesmo milestone independentemente da camada.
 
 ---
 
@@ -110,17 +128,34 @@ PRD / Definição do produto
    Cada Épico vira um Milestone no GitHub
         ↓
    Cada funcionalidade vira uma Issue dentro do Milestone
+   (com label de épico + label de camada: backend ou frontend)
         ↓
    Issue entra no board como "Todo"
         ↓
-   Dev pega a issue → cria uma branch:
-   feature/au-01-cadastro-voluntario
+   Dev pega a issue → cria uma branch a partir da develop correspondente:
+
+   [backend]                        [frontend]
+   feature/au-01-cadastro-voluntario    feature/au-01-cadastro-voluntario
+        ↓                                        ↓
+   merge → develop/backend              merge → develop/frontend
+
         ↓
-   Termina o código → abre um Pull Request vinculado à issue
+   PR usa "Closes #N" no corpo para fechar a issue automaticamente no merge
         ↓
-   PR é revisado e aprovado → merge na develop/backend
+   PR é revisado e aprovado → merge na develop da camada
         ↓
    Issue vai para "Done" no board
+```
+
+### Padrão de nome de branch
+
+```
+feature/<prefixo-número>-<descricao-curta>
+
+Exemplos:
+  feature/au-01-cadastro-voluntario
+  feature/ev-02-editar-evento
+  feature/no-03-notificacao-inscricao
 ```
 
 ---
