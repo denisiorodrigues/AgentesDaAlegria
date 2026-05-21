@@ -1,0 +1,21 @@
+meta {
+  name: AU-03 Solicitar redefinição de senha
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/auth/esqueci-senha
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "email": ""
+}
+}

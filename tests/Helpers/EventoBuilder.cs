@@ -2,16 +2,16 @@ using AgentesDaAlegria.API.Models;
 
 namespace AgentesDaAlegria.Tests.Helpers;
 
-/// <summary>
-/// Builder para criar instâncias de Evento nos testes com valores padrão sensatos.
-/// Evita repetição e torna os testes legíveis: só o que importa pro cenário é configurado.
-/// </summary>
 public class EventoBuilder
 {
+    // Guid fixo usado como CoordenadorId padrão — útil para asserts de coordenador nos testes
+    public static readonly Guid DefaultCoordenadorId = new("99999999-0000-0000-0000-000000000099");
+
     private int _totalVagas = 10;
     private DateTime _data = DateTime.UtcNow.AddDays(7);
     private int _horasLimiteCancelamento = 24;
     private List<Inscricao> _inscricoes = [];
+    private Guid _coordenadorId = DefaultCoordenadorId;
 
     public EventoBuilder ComVagas(int vagas)
     {
@@ -37,6 +37,12 @@ public class EventoBuilder
         return this;
     }
 
+    public EventoBuilder ComCoordenador(Guid coordenadorId)
+    {
+        _coordenadorId = coordenadorId;
+        return this;
+    }
+
     public Evento Build() => new()
     {
         Id = 1,
@@ -45,7 +51,7 @@ public class EventoBuilder
         Local = "Local Teste",
         TotalVagas = _totalVagas,
         HorasLimiteCancelamento = _horasLimiteCancelamento,
-        CoordenadorId = 99,
+        CoordenadorId = _coordenadorId,
         Inscricoes = _inscricoes
     };
 }

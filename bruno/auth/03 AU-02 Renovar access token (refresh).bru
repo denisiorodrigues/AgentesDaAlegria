@@ -1,0 +1,22 @@
+meta {
+  name: AU-02 Renovar access token (refresh)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/auth/refresh
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "accessToken": "",
+  "refreshToken": ""
+}
+}
