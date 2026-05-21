@@ -6,5 +6,6 @@
       "Bash(dotnet tool *)",
       "Bash(dotnet ef *)"
     ]
-  }
+  },
+  "outputStyle": "Learning"
 }
