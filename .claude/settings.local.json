@@ -4,7 +4,9 @@
       "Bash(dotnet build *)",
       "Bash(docker compose *)",
       "Bash(dotnet tool *)",
-      "Bash(dotnet ef *)"
+      "Bash(dotnet ef *)",
+      "Bash(gh project *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Items: {d[\\\\\"items\\\\\"][\\\\\"totalCount\\\\\"]}\\\\nURL: {d[\\\\\"url\\\\\"]}'\\)\")"
     ]
   },
   "outputStyle": "Learning"

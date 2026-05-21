@@ -1,0 +1,23 @@
+meta {
+  name: AU-03 Redefinir senha com token
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/redefinir-senha
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "email": "",
+  "token": "",
+  "novaSenha": ""
+}
+}
