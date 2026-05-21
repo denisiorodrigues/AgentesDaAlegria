@@ -2,13 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "src\backend", "{1AE8ACA6-933B-BF2A-3671-3E2EAC007D16}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "src\tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentesDaAlegria.API", "backend\AgentesDaAlegria.API.csproj", "{5CFBA397-A182-32F6-1474-E391232AD9DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentesDaAlegria.API", "src\backend\AgentesDaAlegria.API.csproj", "{5CFBA397-A182-32F6-1474-E391232AD9DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentesDaAlegria.Tests", "tests\AgentesDaAlegria.Tests.csproj", "{319C1774-11AD-7021-9934-6F34CF553B40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgentesDaAlegria.Tests", "src\tests\AgentesDaAlegria.Tests.csproj", "{319C1774-11AD-7021-9934-6F34CF553B40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

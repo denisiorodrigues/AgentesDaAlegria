@@ -8,5 +8,6 @@
       "Bash(gh project *)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Items: {d[\\\\\"items\\\\\"][\\\\\"totalCount\\\\\"]}\\\\nURL: {d[\\\\\"url\\\\\"]}'\\)\")"
     ]
-  }
+  },
+  "outputStyle": "Learning"
 }
