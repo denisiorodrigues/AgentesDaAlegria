@@ -117,6 +117,9 @@ if (app.Environment.IsDevelopment())
         options.Title = "Agentes da Alegria API";
         options.DefaultHttpClient = new(ScalarTarget.Http, ScalarClient.HttpClient);
     });
+
+    using var scope = app.Services.CreateScope();
+    await AdminSeeder.SeedAsync(scope.ServiceProvider, app.Configuration, app.Logger);
 }
 
 app.UseHttpsRedirection();
